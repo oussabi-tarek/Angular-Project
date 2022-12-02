@@ -1,0 +1,131 @@
+<div class="col-md-8 mx-auto">
+  <div class="row mt-3">
+    <div class="col-7">
+      <h1>contacts of : {{ Date | date: "longDate" }}</h1>
+    </div>
+    <div class="col-5 mt-2">
+      <form class="d-flex">
+        <input
+          [(ngModel)]="searchterm"
+          class="form-control me-2"
+          name="search"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button
+          (click)="findContacts()"
+          class="btn btn-outline-success"
+          type="submit"
+        >
+          Search
+        </button>
+      </form>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Prnom</th>
+        <th scope="col">Tel</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contact of Contacts; let i = index">
+        <th scope="row">1</th>
+        <td>{{ contact.nom | uppercase }}</td>
+        <td>{{ contact.prenom }}</td>
+        <td>{{ contact.tel }}</td>
+        <td>
+          <button
+            class="btn btn-sm btn-danger mr-3"
+            (click)="confirmDeleteContact(i, template1)"
+          >
+            <i class="fa fa-trash"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-warning"
+            (click)="editContact(i, template)"
+          >
+            <i class="fa fa-edit"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modifier un Contact</h4>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="modalRef?.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-8 mx-auto m-2">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Nom</label>
+          <input
+            type="text"
+            required
+            name="nom"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            [(ngModel)]="ContactToEdit.nom"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Prenom</label>
+          <input
+            type="text"
+            [(ngModel)]="ContactToEdit.prenom"
+            name="prenom"
+            required
+            class="form-control"
+            id="exampleInputPassword1"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="exampleCheck1">TEL</label>
+          <input
+            type="text"
+            [(ngModel)]="ContactToEdit.tel"
+            name="tel"
+            required
+            class="form-control"
+            id="exampleCheck1"
+          />
+        </div>
+        <button (click)="confirmUpdate()" type="submit" class="btn btn-primary">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<br /><br />
+
+<ng-template #template1>
+  <div class="modal-body text-center">
+    <p>Vous voulez vraiment supprimer ce Contact?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()">
+      Yes
+    </button>
+    <button type="button" class="btn btn-primary" (click)="decline()">
+      No
+    </button>
+  </div>
+</ng-template>
